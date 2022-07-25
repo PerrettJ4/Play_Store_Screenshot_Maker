@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <h1>James' Screenshot Software</h1>
+    <button type="button" id="btnDisplay">Display</button>
+    <button type="button" id="btnDownload">Download</button>
+    <hr>
+    <!-- 3840 2160 -->
+    <canvas id="myCanvas" height="1920" width="1080" style="border: 2px solid #000; float: left;;"></canvas>
+    <img src="" id="imgConverted" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
+    <img id='screenshot' style='display: none;' src='./Screenshot_Images_1/1.png' />
+    <script>
+        const btnDisplay = document.querySelector('#btnDisplay');
+        const btnDownload = document.querySelector('#btnDownload');
+        const imgConverted = document.querySelector('#imageConverted');
+        const myCanvas = document.querySelector('#myCanvas');
+        const screenshot = document.querySelector('#screenshot')
+        const ctx = myCanvas.getContext('2d');
+
+        const txt = "FIND LOCAL .SPORTS FACILITIES"
+
+        ctx.fillStyle = "#7800ff"
+        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
+        ctx.fillStyle = "#fff";
+        ctx.font = "80px Montserrat"
+        ctx.textAlign = 'center'
+        var lineheight = 100;
+        var lines = txt.split('.');
+
+        for (var i = 0; i < lines.length; i++)
+            ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.5 / 10 + (i * lineheight));
+
+        function roundedImage(x, y, width, height, radius) {
+            ctx.beginPath();
+            ctx.moveTo(x + radius, y);
+            ctx.lineTo(x + width - radius, y);
+            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+            ctx.lineTo(x + width, y + height - radius);
+            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+            ctx.lineTo(x + radius, y + height);
+            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+            ctx.lineTo(x, y + radius);
+            ctx.quadraticCurveTo(x, y, x + radius, y);
+            ctx.closePath();
+        }
+
+        screenshot.addEventListener('load', (e) => {
+            ctx.save();
+            roundedImage(
+                myCanvas.width / 10, myCanvas.height * 3 / 10, //start image
+                myCanvas.width * 8 / 10, myCanvas.height, //end image
+                10
+            )
+            ctx.clip();
+            ctx.drawImage(screenshot,
+                0, 0, //grab start
+                screenshot.width, screenshot.height - 40, //grab end
+                myCanvas.width / 10, myCanvas.height * 3 / 10, //start image
+                myCanvas.width * 8 / 10, myCanvas.height //end image
+            );
+            ctx.restore();
+        });
+
+        btnDisplay.addEventListener("click", function () {
+            const dataURI = myCanvas.toDataURL();
+
+            console.log(dataURI)
+        })
+    </script>
+</body>
+
+</html>
