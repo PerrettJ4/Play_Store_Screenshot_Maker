@@ -14,81 +14,97 @@
 
 <body>
     <h1>James' Screenshot Software</h1>
-    <button type="button" id="btnDisplay">Display</button>
-    <button type="button" id="btnDownload">Download</button>
-    <hr>
-    <!-- 3840 2160 -->
-    <canvas id="myCanvas" height="1920" width="1080" style="border: 2px solid #000; float: left;;"></canvas>
-    <img src="" id="imgConverted" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
-    <img id='screenshot' style='display: none;' src='./Screenshot_Images_1/1.png' />
+    <div id='container' style='display: flex; flex-direction: row;'></div>
+
     <script>
-        const btnDisplay = document.querySelector('#btnDisplay');
-        const btnDownload = document.querySelector('#btnDownload');
-        const imgConverted = document.querySelector('#imgConverted');
-        const myCanvas = document.querySelector('#myCanvas');
-        const screenshot = document.querySelector('#screenshot')
-        const ctx = myCanvas.getContext('2d');
 
-        const txt = "FIND LOCAL .SPORTS FACILITIES"
+        function createTile(txtArray = [['foo bar. foo bar', 0], ['find my. facility is the best', 1]]) {
 
-        ctx.fillStyle = "#7800ff"
-        ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-        ctx.fillStyle = "#fff";
-        ctx.font = "bold 80px Montserrat"
-        ctx.textAlign = 'center'
-        var lineheight = 100;
-        var lines = txt.split('.');
+            for (x = 0; x < txtArray.length; x++) {
+                function roundedImage(x, y, width, height, radius) {
+                    ctx.beginPath();
+                    ctx.moveTo(x + radius, y);
+                    ctx.lineTo(x + width - radius, y);
+                    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                    ctx.lineTo(x + width, y + height - radius);
+                    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                    ctx.lineTo(x + radius, y + height);
+                    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                    ctx.lineTo(x, y + radius);
+                    ctx.quadraticCurveTo(x, y, x + radius, y);
+                    ctx.closePath();
+                }
+                const tile = document.createElement('div')
+                tile.style.display = "flex"
+                tile.style.flexDirection = "column"
+                const containerRow = document.querySelector('#container')
+                containerRow.appendChild(tile)
+                tile.innerHTML =
+                    `<button type="button" id="btnDisplay${x}">Display</button>
+                <button type="button" id="btnDownload${x}">Download</button>
+                <!-- 3840 2160 -->
+                <canvas id="myCanvas${x}" height="1920" width="1080" style="border: 2px solid #000; float: left;"></canvas>
+                <img src="" id="imgConverted${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
+                <img id='screenshot${x}' style='display: none;' src='./Screenshot_Images_1/${x + 1}.png' />`
+                const btnDisplay = document.querySelector(`#btnDisplay${x}`);
+                const btnDownload = document.querySelector(`#btnDownload${x}`);
+                const imgConverted = document.querySelector(`#imgConverted${x}`);
+                const myCanvas = document.querySelector(`#myCanvas${x}`);
+                const screenshot = document.querySelector(`#screenshot${x}`)
+                const ctx = myCanvas.getContext('2d');
 
-        for (var i = 0; i < lines.length; i++)
-            ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.5 / 10 + (i * lineheight));
+                const txt = txtArray[x][0].toUpperCase()
 
-        function roundedImage(x, y, width, height, radius) {
-            ctx.beginPath();
-            ctx.moveTo(x + radius, y);
-            ctx.lineTo(x + width - radius, y);
-            ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-            ctx.lineTo(x + width, y + height - radius);
-            ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-            ctx.lineTo(x + radius, y + height);
-            ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-            ctx.lineTo(x, y + radius);
-            ctx.quadraticCurveTo(x, y, x + radius, y);
-            ctx.closePath();
+                ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
+                ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
+                ctx.fillStyle = txtArray[x][1] ? "#313131" : '#fff';
+                ctx.font = "bold 80px Montserrat"
+                ctx.textAlign = 'center'
+                var lineheight = 100;
+                const lines = txt.split('.');
+
+                for (var i = 0; i < lines.length; i++)
+                    ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.2 / 10 + (i * lineheight));
+
+                screenshot.addEventListener('load', (e) => {
+                    const start = lines.length === 2 ? 2.5 : 2
+                    ctx.save();
+                    roundedImage(
+                        myCanvas.width / 10, myCanvas.height * start / 10, //start image
+                        myCanvas.width * 8 / 10, myCanvas.height, //end image
+                        10
+                    )
+                    ctx.clip();
+                    ctx.drawImage(screenshot,
+                        0, 120, //grab start
+                        screenshot.width, screenshot.height - 40, //grab end
+                        myCanvas.width / 10, myCanvas.height * start / 10, //start image
+                        myCanvas.width * 8 / 10, myCanvas.height //end image
+                    );
+                    ctx.restore();
+                });
+
+                btnDisplay.addEventListener("click", function () {
+                    const dataURI = myCanvas.toDataURL();
+                    imgConverted.src = dataURI
+                    console.log(dataURI)
+                })
+
+                btnDownload.addEventListener("click", function () {
+                    const a = document.createElement(`a`)
+                    console.log(x)
+                    // appending/removing only for Firefox
+                    document.body.appendChild(a);
+                    a.href = myCanvas.toDataURL();
+                    a.download = `canvas-image-${x}.png`
+                    a.click()
+                    document.body.removeChild(a)
+                })
+            }
         }
+        const screenshotStory1 = [['access local.sports facilities', 0], ['find contact details.of any facility', 1], ['view all.activities', 1], ['find opening times', 1], ['find local. classes', 0], ['view class.details', 1], ['filter by sports', 0]]
+        createTile(screenshotStory1)
 
-        screenshot.addEventListener('load', (e) => {
-            ctx.save();
-            roundedImage(
-                myCanvas.width / 10, myCanvas.height * 3 / 10, //start image
-                myCanvas.width * 8 / 10, myCanvas.height, //end image
-                10
-            )
-            ctx.clip();
-            ctx.drawImage(screenshot,
-                0, 110, //grab start
-                screenshot.width, screenshot.height - 40, //grab end
-                myCanvas.width / 10, myCanvas.height * 3 / 10, //start image
-                myCanvas.width * 8 / 10, myCanvas.height //end image
-            );
-            ctx.restore();
-        });
-
-        btnDisplay.addEventListener("click", function () {
-            const dataURI = myCanvas.toDataURL();
-            imgConverted.src = dataURI
-            console.log(dataURI)
-        })
-
-        btnDownload.addEventListener("click", function () {
-            const a = document.createElement("a")
-
-            // appending/removing only for Firefox
-            document.body.appendChild(a);
-            a.href = myCanvas.toDataURL();
-            a.download = 'canvas-image.png'
-            a.click()
-            document.body.removeChild('a')
-        })
     </script>
 </body>
 
