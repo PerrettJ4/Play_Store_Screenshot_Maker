@@ -55,6 +55,7 @@
 
                 const txt = txtArray[x][0].toUpperCase()
 
+                //plain bg
                 ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
                 ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
                 ctx.fillStyle = txtArray[x][1] ? "#313131" : '#fff';
@@ -68,20 +69,40 @@
 
                 screenshot.addEventListener('load', (e) => {
                     const start = lines.length === 2 ? 2.5 : 2
+                    const shadowSizeConfig = [
+                        (myCanvas.width / 10) - 20, (myCanvas.height * start / 10) - 20, //shadow start
+                        (myCanvas.width * 8 / 10) + 40, myCanvas.height + 20//shadow end
+                    ]
+                    const phoneSizeConfig = [
+                        myCanvas.width / 10, myCanvas.height * start / 10, //image start
+                        myCanvas.width * 8 / 10, myCanvas.height //image end
+                    ]
                     ctx.save();
                     roundedImage(
-                        myCanvas.width / 10, myCanvas.height * start / 10, //start image
-                        myCanvas.width * 8 / 10, myCanvas.height, //end image
-                        10
+                        ...shadowSizeConfig,
+                        65 //corner radius
+                    )
+                    ctx.clip();
+                    ctx.fillStyle = 'black'
+                    ctx.fillRect(...shadowSizeConfig)
+                    ctx.restore();
+
+                    ctx.save();
+                    roundedImage(
+                        ...phoneSizeConfig,
+                        50 //corner radius
                     )
                     ctx.clip();
                     ctx.drawImage(screenshot,
                         0, 120, //grab start
                         screenshot.width, screenshot.height - 40, //grab end
-                        myCanvas.width / 10, myCanvas.height * start / 10, //start image
-                        myCanvas.width * 8 / 10, myCanvas.height //end image
+                        ...phoneSizeConfig
                     );
                     ctx.restore();
+
+
+
+
                 });
 
                 btnDisplay.addEventListener("click", function () {
@@ -102,7 +123,7 @@
                 })
             }
         }
-        const screenshotStory1 = [['access local.sports facilities', 0], ['find contact details.of any facility', 1], ['view all.activities', 1], ['find opening times', 1], ['find local. classes', 0], ['view class.details', 1], ['filter by sports', 0]]
+        const screenshotStory1 = [['access local.sports facilities', 0], ['find contact details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
         createTile(screenshotStory1)
 
     </script>
