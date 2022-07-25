@@ -24,7 +24,7 @@
     <script>
         const btnDisplay = document.querySelector('#btnDisplay');
         const btnDownload = document.querySelector('#btnDownload');
-        const imgConverted = document.querySelector('#imageConverted');
+        const imgConverted = document.querySelector('#imgConverted');
         const myCanvas = document.querySelector('#myCanvas');
         const screenshot = document.querySelector('#screenshot')
         const ctx = myCanvas.getContext('2d');
@@ -34,7 +34,7 @@
         ctx.fillStyle = "#7800ff"
         ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
         ctx.fillStyle = "#fff";
-        ctx.font = "80px Montserrat"
+        ctx.font = "bold 80px Montserrat"
         ctx.textAlign = 'center'
         var lineheight = 100;
         var lines = txt.split('.');
@@ -65,7 +65,7 @@
             )
             ctx.clip();
             ctx.drawImage(screenshot,
-                0, 0, //grab start
+                0, 110, //grab start
                 screenshot.width, screenshot.height - 40, //grab end
                 myCanvas.width / 10, myCanvas.height * 3 / 10, //start image
                 myCanvas.width * 8 / 10, myCanvas.height //end image
@@ -75,8 +75,19 @@
 
         btnDisplay.addEventListener("click", function () {
             const dataURI = myCanvas.toDataURL();
-
+            imgConverted.src = dataURI
             console.log(dataURI)
+        })
+
+        btnDownload.addEventListener("click", function () {
+            const a = document.createElement("a")
+
+            // appending/removing only for Firefox
+            document.body.appendChild(a);
+            a.href = myCanvas.toDataURL();
+            a.download = 'canvas-image.png'
+            a.click()
+            document.body.removeChild('a')
         })
     </script>
 </body>
