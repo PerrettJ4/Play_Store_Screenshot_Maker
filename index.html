@@ -40,10 +40,10 @@
                 const containerRow = document.querySelector('#container')
                 containerRow.appendChild(tile)
                 tile.innerHTML =
-                    `<button type="button" id="btnDisplay${x}">Display</button>
-                <button type="button" id="btnDownload${x}">Download</button>
-                <!-- 3840 2160 -->
-                <canvas id="myCanvas${x}" height="1920" width="1080" style="border: 2px solid #000; float: left;"></canvas>
+                    `<button type="button" id="btnDisplay${x}" style="height:200px; font-size:50px;">Display</button>
+                <button type="button" id="btnDownload${x}" style="height:200px; font-size:50px;"">Download</button>
+                <!-- 3840 2160 1920 1080-->
+                <canvas id="myCanvas${x}" height="3840" width="2160" style="border: 2px solid #000; float: left;"></canvas>
                 <img src="" id="imgConverted${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
                 <img id='screenshot${x}' style='display: none;' src='./Screenshot_Images_1/${x + 1}.png' />`
                 const btnDisplay = document.querySelector(`#btnDisplay${x}`);
@@ -54,21 +54,26 @@
                 const ctx = myCanvas.getContext('2d');
 
                 const txt = txtArray[x][0].toUpperCase()
+                //Math.round(Math.random())
+                if (false) {
+                    //plain bg
+                    ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
+                } else {
+                    // Create gradient
+                    const randomDec = Math.random() + 0.6
 
-                //plain bg
-                ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
-                // Create gradient
-                var grd = ctx.createRadialGradient(0, 0, myCanvas.width, myCanvas.width, myCanvas.height, myCanvas.width);
+                    var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                grd.addColorStop(0, txtArray[x][1] ? "whitesmoke" : "#313131");
-                grd.addColorStop(1, txtArray[x][1] ? "#7800ff" : "#7800ff");
-                // Fill with gradient
-                ctx.fillStyle = grd;
+                    grd.addColorStop(0, txtArray[x][1] ? "#000" : "#fff");
+                    grd.addColorStop(1, txtArray[x][1] ? "#fff" : "#7800ff");
+                    // Fill with gradient
+                    ctx.fillStyle = grd;
+                }
                 ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
                 ctx.fillStyle = txtArray[x][1] ? "black" : "#fff"
-                ctx.font = "bold 80px Montserrat"
+                ctx.font = "bold 160px Montserrat"
                 ctx.textAlign = 'center'
-                var lineheight = 100;
+                var lineheight = 200;
                 const lines = txt.split('.');
 
                 for (var i = 0; i < lines.length; i++)
@@ -77,8 +82,8 @@
                 screenshot.addEventListener('load', (e) => {
                     const start = lines.length === 2 ? 2.5 : 2
                     const shadowSizeConfig = [
-                        (myCanvas.width / 10) - 20, (myCanvas.height * start / 10) - 20, //shadow start
-                        (myCanvas.width * 8 / 10) + 40, myCanvas.height + 20//shadow end
+                        (myCanvas.width / 10) - 15, (myCanvas.height * start / 10) - 15, //shadow start
+                        (myCanvas.width * 8 / 10) + 30, myCanvas.height + 15//shadow end
                     ]
                     const phoneSizeConfig = [
                         myCanvas.width / 10, myCanvas.height * start / 10, //image start
@@ -87,7 +92,7 @@
                     ctx.save();
                     roundedImage(
                         ...shadowSizeConfig,
-                        65 //corner radius
+                        32.5 //corner radius
                     )
                     ctx.clip();
                     ctx.fillStyle = 'black'
@@ -97,7 +102,7 @@
                     ctx.save();
                     roundedImage(
                         ...phoneSizeConfig,
-                        50 //corner radius
+                        20 //corner radius
                     )
                     ctx.clip();
                     ctx.drawImage(screenshot,
@@ -130,7 +135,7 @@
                 })
             }
         }
-        const screenshotStory1 = [['access local.sports facilities', 0], ['find contact details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
+        const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
         createTile(screenshotStory1)
 
     </script>
