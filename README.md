@@ -1,7 +1,7 @@
 # Play_Store_Screenshot_Maker
 Software to Autonomously make 8 screenshots for Google Play store listing
 
-![Alt text](https://files.slack.com/files-pri/T6L933W4X-F03RQDYLEHW/screenshot_2022-07-26_at_12.16.08.png?raw=true "Title")
+![Alt text](https://i.ibb.co/dJNq47C/Screenshot-2022-07-26-at-12-16-08.png?raw=true "Title")
 
 • Main branch: plain background
 
