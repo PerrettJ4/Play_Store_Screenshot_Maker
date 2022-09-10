@@ -18,125 +18,142 @@
 
     <script>
 
+
         function createTile(txtArray = [['foo bar. foo bar', 0], ['find my. facility is the best', 1]]) {
 
+            const settings = ["",
+                { height: '3840', width: '2160', font: "bold 160px Montserrat", lineHeight: 200, ES: 0 },
+                { height: '2732', width: '2048', font: "bold 150px Montserrat", lineHeight: 160, ES: 500 },
+                { height: '2778', width: '1284', font: "bold 90px Montserrat", lineHeight: 130, ES: -500 },
+                { height: '2208', width: '1242', font: "bold 90px Montserrat", lineHeight: 120, ES: 0 }]
+
+
             for (x = 0; x < txtArray.length; x++) {
-                function roundedImage(x, y, width, height, radius) {
-                    ctx.beginPath();
-                    ctx.moveTo(x + radius, y);
-                    ctx.lineTo(x + width - radius, y);
-                    ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
-                    ctx.lineTo(x + width, y + height - radius);
-                    ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
-                    ctx.lineTo(x + radius, y + height);
-                    ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
-                    ctx.lineTo(x, y + radius);
-                    ctx.quadraticCurveTo(x, y, x + radius, y);
-                    ctx.closePath();
-                }
-                const tile = document.createElement('div')
-                tile.style.display = "flex"
-                tile.style.flexDirection = "column"
-                const containerRow = document.querySelector('#container')
-                containerRow.appendChild(tile)
-                tile.innerHTML =
-                    `<button type="button" id="btnDisplay${x}" style="height:200px; font-size:50px;">Display</button>
-                <button type="button" id="btnDownload${x}" style="height:200px; font-size:50px;"">Download</button>
+                for (let p = 1; p < 5; p++) {
+                    function roundedImage(x, y, width, height, radius) {
+                        ctx.beginPath();
+                        ctx.moveTo(x + radius, y);
+                        ctx.lineTo(x + width - radius, y);
+                        ctx.quadraticCurveTo(x + width, y, x + width, y + radius);
+                        ctx.lineTo(x + width, y + height - radius);
+                        ctx.quadraticCurveTo(x + width, y + height, x + width - radius, y + height);
+                        ctx.lineTo(x + radius, y + height);
+                        ctx.quadraticCurveTo(x, y + height, x, y + height - radius);
+                        ctx.lineTo(x, y + radius);
+                        ctx.quadraticCurveTo(x, y, x + radius, y);
+                        ctx.closePath();
+                    }
+                    const tile = document.createElement('div')
+                    tile.style.display = "flex"
+                    tile.style.flexDirection = "column"
+                    const containerRow = document.querySelector('#container')
+                    containerRow.appendChild(tile)
+                    tile.innerHTML =
+                        `<button type="button" id="btnDisplay${p}${x}" style="height:200px; font-size:50px;">Display</button>
+                <button type="button" id="btnDownload${p}${x}" style="height:200px; font-size:50px;"">Download</button>
                 <!-- 3840 2160 1920 1080-->
-                <canvas id="myCanvas${x}" height="3840" width="2160" style="border: 2px solid #000; float: left;"></canvas>
-                <img src="" id="imgConverted${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
-                <img id='screenshot${x}' style='display: none;' src='./Screenshot_Images_1/${x + 1}.png' />`
-                const btnDisplay = document.querySelector(`#btnDisplay${x}`);
-                const btnDownload = document.querySelector(`#btnDownload${x}`);
-                const imgConverted = document.querySelector(`#imgConverted${x}`);
-                const myCanvas = document.querySelector(`#myCanvas${x}`);
-                const screenshot = document.querySelector(`#screenshot${x}`)
-                const ctx = myCanvas.getContext('2d');
+                <canvas id="myCanvas${p}${x}" height=${settings[p].height} width=${settings[p].width} style="border: 2px solid #000; float: left;"></canvas>
+                <img src="" id="imgConverted${p}${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
+                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_PL/${x + 1}.png' />`
 
-                const txt = txtArray[x][0].toUpperCase()
-                //Math.round(Math.random())
-                if (false) {
-                    //plain bg
-                    ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
-                } else {
-                    // Create gradient
-                    const randomDec = Math.random() + 0.6
 
-                    var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                    grd.addColorStop(0, txtArray[x][1] ? "#000" : "#fff");
-                    grd.addColorStop(1, txtArray[x][1] ? "#fff" : "#7800ff");
-                    // Fill with gradient
-                    ctx.fillStyle = grd;
+
+
+                    const btnDisplay = document.querySelector(`#btnDisplay${p}${x}`);
+                    const btnDownload = document.querySelector(`#btnDownload${p}${x}`);
+                    const imgConverted = document.querySelector(`#imgConverted${p}${x}`);
+                    const myCanvas = document.querySelector(`#myCanvas${p}${x}`);
+                    const screenshot = document.querySelector(`#screenshot${p}${x}`)
+                    const ctx = myCanvas.getContext('2d');
+
+                    const txt = txtArray[x][0].toUpperCase()
+                    //Math.round(Math.random())
+                    if (false) {
+                        //plain bg
+                        ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
+                    } else {
+                        // Create gradient
+                        const randomDec = Math.random() + 0.6
+
+                        var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
+
+                        grd.addColorStop(0, txtArray[x][1] ? "white" : "black");
+                        grd.addColorStop(1, txtArray[x][1] ? "black" : "white");
+                        // Fill with gradient
+                        ctx.fillStyle = grd;
+                    }
+                    ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
+                    ctx.fillStyle = txtArray[x][1] ? "white" : "black"
+                    ctx.font = settings[p].font
+                    ctx.textAlign = 'center'
+                    var lineheight = settings[p].lineHeight;
+                    const lines = txt.split('.');
+
+                    for (var i = 0; i < lines.length; i++)
+                        ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.2 / 10 + (i * lineheight));
+
+                    screenshot.addEventListener('load', (e) => {
+                        const start = lines.length === 3 ? 3 : lines.length === 2 ? 2.5 : txt.length === 0 ? 1 : 2
+
+                        const shadowSizeConfig = [
+                            (myCanvas.width / 10) - 25, (myCanvas.height * start / 10) - 25, //shadow start
+                            (myCanvas.width * 8 / 10) + 50, myCanvas.height + 50//shadow end
+                        ]
+                        const phoneSizeConfig = [
+                            myCanvas.width / 10, myCanvas.height * start / 10, //image start
+                            myCanvas.width * 8 / 10, myCanvas.height + settings[p].ES //image end
+                        ]
+                        ctx.save();
+                        roundedImage(
+                            ...shadowSizeConfig,
+                            65 //corner radius
+                        )
+                        ctx.clip();
+                        ctx.fillStyle = 'black'
+                        ctx.fillRect(...shadowSizeConfig)
+                        ctx.restore();
+
+                        ctx.save();
+                        roundedImage(
+                            ...phoneSizeConfig,
+                            40 //corner radius
+                        )
+                        ctx.clip();
+                        ctx.drawImage(screenshot,
+                            0, 120, //grab start
+                            screenshot.width, screenshot.height - 40, //grab end
+                            ...phoneSizeConfig
+                        );
+                        ctx.restore();
+
+
+
+
+                    });
+
+                    btnDisplay.addEventListener("click", function () {
+                        const dataURI = myCanvas.toDataURL();
+                        imgConverted.src = dataURI
+                        console.log(dataURI)
+                    })
+
+                    btnDownload.addEventListener("click", function () {
+                        const a = document.createElement(`a`)
+                        console.log(x)
+                        // appending/removing only for Firefox
+                        document.body.appendChild(a);
+                        a.href = myCanvas.toDataURL();
+                        a.download = `store-image-${p}${x}.png`
+                        a.click()
+                        document.body.removeChild(a)
+                    })
                 }
-                ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                ctx.fillStyle = txtArray[x][1] ? "black" : "#fff"
-                ctx.font = "bold 160px Montserrat"
-                ctx.textAlign = 'center'
-                var lineheight = 200;
-                const lines = txt.split('.');
-
-                for (var i = 0; i < lines.length; i++)
-                    ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.2 / 10 + (i * lineheight));
-
-                screenshot.addEventListener('load', (e) => {
-                    const start = lines.length === 2 ? 2.5 : 2
-                    const shadowSizeConfig = [
-                        (myCanvas.width / 10) - 15, (myCanvas.height * start / 10) - 15, //shadow start
-                        (myCanvas.width * 8 / 10) + 30, myCanvas.height + 15//shadow end
-                    ]
-                    const phoneSizeConfig = [
-                        myCanvas.width / 10, myCanvas.height * start / 10, //image start
-                        myCanvas.width * 8 / 10, myCanvas.height //image end
-                    ]
-                    ctx.save();
-                    roundedImage(
-                        ...shadowSizeConfig,
-                        32.5 //corner radius
-                    )
-                    ctx.clip();
-                    ctx.fillStyle = 'black'
-                    ctx.fillRect(...shadowSizeConfig)
-                    ctx.restore();
-
-                    ctx.save();
-                    roundedImage(
-                        ...phoneSizeConfig,
-                        20 //corner radius
-                    )
-                    ctx.clip();
-                    ctx.drawImage(screenshot,
-                        0, 120, //grab start
-                        screenshot.width, screenshot.height - 40, //grab end
-                        ...phoneSizeConfig
-                    );
-                    ctx.restore();
-
-
-
-
-                });
-
-                btnDisplay.addEventListener("click", function () {
-                    const dataURI = myCanvas.toDataURL();
-                    imgConverted.src = dataURI
-                    console.log(dataURI)
-                })
-
-                btnDownload.addEventListener("click", function () {
-                    const a = document.createElement(`a`)
-                    console.log(x)
-                    // appending/removing only for Firefox
-                    document.body.appendChild(a);
-                    a.href = myCanvas.toDataURL();
-                    a.download = `canvas-image-${x}.png`
-                    a.click()
-                    document.body.removeChild(a)
-                })
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        createTile(screenshotStory1)
+        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1]]
+        createTile(screenshotStory2)
 
     </script>
 </body>
