@@ -9,7 +9,10 @@
     <!-- <link rel="stylesheet" href="style.css"> -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@500;600&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -22,14 +25,15 @@
         function createTile(txtArray = [['foo bar. foo bar', 0], ['find my. facility is the best', 1]]) {
 
             const settings = ["",
-                { height: '3840', width: '2160', font: "bold 160px Montserrat", lineHeight: 200, ES: 0 },
-                { height: '2732', width: '2048', font: "bold 150px Montserrat", lineHeight: 160, ES: 500 },
-                { height: '2778', width: '1284', font: "bold 90px Montserrat", lineHeight: 130, ES: -500 },
-                { height: '2208', width: '1242', font: "bold 90px Montserrat", lineHeight: 120, ES: 0 }]
+                { height: '3840', width: '2160', font: "bold 160px Open sans", lineHeight: 200, ES: 0 },
+                { height: '2732', width: '2048', font: "bold 150px Open sans", lineHeight: 160, ES: 800 },
+                { height: '2778', width: '1284', font: "bold 90px Open sans", lineHeight: 130, ES: -500 },
+                { height: '2796', width: '1290', font: "bold 95px Open sans", lineHeight: 130, ES: -490 },
+                { height: '2208', width: '1242', font: "bold 90px Open sans", lineHeight: 120, ES: 0 }]
 
 
             for (x = 0; x < txtArray.length; x++) {
-                for (let p = 1; p < 5; p++) {
+                for (let p = 1; p < settings.length; p++) {
                     function roundedImage(x, y, width, height, radius) {
                         ctx.beginPath();
                         ctx.moveTo(x + radius, y);
@@ -54,7 +58,7 @@
                 <!-- 3840 2160 1920 1080-->
                 <canvas id="myCanvas${p}${x}" height=${settings[p].height} width=${settings[p].width} style="border: 2px solid #000; float: left;"></canvas>
                 <img src="" id="imgConverted${p}${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
-                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_PL/${x + 1}.png' />`
+                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_WC/${x + 1}.png' />`
 
 
 
@@ -78,13 +82,13 @@
 
                         var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                        grd.addColorStop(0, txtArray[x][1] ? "white" : "black");
-                        grd.addColorStop(1, txtArray[x][1] ? "black" : "white");
+                        grd.addColorStop(0, txtArray[x][1] ? "whitesmoke" : "#FEC310");
+                        grd.addColorStop(1, txtArray[x][1] ? "#FEC310" : "whitesmoke");
                         // Fill with gradient
                         ctx.fillStyle = grd;
                     }
                     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                    ctx.fillStyle = txtArray[x][1] ? "white" : "black"
+                    ctx.fillStyle = txtArray[x][1] ? "black" : "black"
                     ctx.font = settings[p].font
                     ctx.textAlign = 'center'
                     var lineheight = settings[p].lineHeight;
@@ -98,7 +102,7 @@
 
                         const shadowSizeConfig = [
                             (myCanvas.width / 10) - 25, (myCanvas.height * start / 10) - 25, //shadow start
-                            (myCanvas.width * 8 / 10) + 50, myCanvas.height + 50//shadow end
+                            (myCanvas.width * 8 / 10) + 50, myCanvas.height + settings[p].ES //shadow end
                         ]
                         const phoneSizeConfig = [
                             myCanvas.width / 10, myCanvas.height * start / 10, //image start
@@ -144,7 +148,7 @@
                         // appending/removing only for Firefox
                         document.body.appendChild(a);
                         a.href = myCanvas.toDataURL();
-                        a.download = `store-image-${p}${x}.png`
+                        a.download = `${settings[p].height}-${p}-${x}.png`
                         a.click()
                         document.body.removeChild(a)
                     })
@@ -152,8 +156,9 @@
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1]]
-        createTile(screenshotStory2)
+        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0]]
+        const screenshotStory3 = [['Predict the Qatar. world cup 22', 0], ['score points on.your prediction', 0], ['Share or save.your tree', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['', 0]]
+        createTile(screenshotStory3)
 
     </script>
 </body>
