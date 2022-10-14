@@ -11,8 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@500;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -58,7 +57,7 @@
                 <!-- 3840 2160 1920 1080-->
                 <canvas id="myCanvas${p}${x}" height=${settings[p].height} width=${settings[p].width} style="border: 2px solid #000; float: left;"></canvas>
                 <img src="" id="imgConverted${p}${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
-                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_WC/${x + 1}.png' />`
+                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_PL/${x + 1}.png' />`
 
 
 
@@ -82,8 +81,8 @@
 
                         var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                        grd.addColorStop(0, txtArray[x][1] ? "whitesmoke" : "#FEC310");
-                        grd.addColorStop(1, txtArray[x][1] ? "#FEC310" : "whitesmoke");
+                        grd.addColorStop(0, txtArray[x][1] ? "#3201c8" : "#ff335e");
+                        grd.addColorStop(1, txtArray[x][1] ? "whitesmoke" : "whitesmoke");
                         // Fill with gradient
                         ctx.fillStyle = grd;
                     }
@@ -101,8 +100,8 @@
                         const start = lines.length === 3 ? 3 : lines.length === 2 ? 2.5 : txt.length === 0 ? 1 : 2
 
                         const shadowSizeConfig = [
-                            (myCanvas.width / 10) - 25, (myCanvas.height * start / 10) - 25, //shadow start
-                            (myCanvas.width * 8 / 10) + 50, myCanvas.height + settings[p].ES //shadow end
+                            (myCanvas.width / 10) - 35, (myCanvas.height * start / 10) - 35, //shadow start
+                            (myCanvas.width * 8 / 10) + 70, myCanvas.height + settings[p].ES //shadow end
                         ]
                         const phoneSizeConfig = [
                             myCanvas.width / 10, myCanvas.height * start / 10, //image start
@@ -111,22 +110,22 @@
                         ctx.save();
                         roundedImage(
                             ...shadowSizeConfig,
-                            65 //corner radius
+                            150 //corner radius
                         )
                         ctx.clip();
-                        ctx.fillStyle = 'black'
+                        ctx.fillStyle = '#4b5563'
                         ctx.fillRect(...shadowSizeConfig)
                         ctx.restore();
 
                         ctx.save();
                         roundedImage(
                             ...phoneSizeConfig,
-                            40 //corner radius
+                            110 //corner radius
                         )
                         ctx.clip();
                         ctx.drawImage(screenshot,
-                            0, 120, //grab start
-                            screenshot.width, screenshot.height - 40, //grab end
+                            0, 80, //grab start
+                            screenshot.width, screenshot.height - 0, //grab end
                             ...phoneSizeConfig
                         );
                         ctx.restore();
@@ -156,9 +155,9 @@
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0]]
-        const screenshotStory3 = [['Predict the Qatar. world cup 22', 0], ['score points on.your prediction', 0], ['Share or save.your tree', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['', 0]]
-        createTile(screenshotStory3)
+        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['View your friends.predictions', 0], ['compete in the.global league', 0], ['', 1], ['light or.dark mode', 1], ['', 1], ['', 0]]
+        const screenshotStory3 = [['Predict the 2022. world cup', 0], ['score points on.your prediction', 0], ['Share or save.your tree', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
+        createTile(screenshotStory2)
 
     </script>
 </body>
