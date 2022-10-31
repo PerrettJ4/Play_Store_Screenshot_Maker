@@ -81,8 +81,8 @@
 
                         var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                        grd.addColorStop(0, txtArray[x][1] ? "#3201c8" : "#ff335e");
-                        grd.addColorStop(1, txtArray[x][1] ? "whitesmoke" : "whitesmoke");
+                        grd.addColorStop(0, txtArray[x][1] ? "#3201c811" : "#ff335e11");
+                        grd.addColorStop(1, txtArray[x][1] ? "#ff335e66" : "#3201c866");
                         // Fill with gradient
                         ctx.fillStyle = grd;
                     }
@@ -155,7 +155,7 @@
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['Share or save.your table', 0], ['View your friends.predictions', 0], ['compete in the.global league', 0], ['', 1], ['light or.dark mode', 1], ['', 1], ['', 0]]
+        const screenshotStory2 = [['Predict your. Premier League 22/23', 0], ['score points on.your prediction', 0], ['', 0], ['Share or save.your table', 0], ['compete in the.global league', 0], ['multiple leagues!', 1], ['', 1], ['View your friends.predictions', 1], ['', 0], ['', 0]]
         const screenshotStory3 = [['Predict the 2022. world cup', 0], ['score points on.your prediction', 0], ['Share or save.your tree', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
         createTile(screenshotStory2)
 
