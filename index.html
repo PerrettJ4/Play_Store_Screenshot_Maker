@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@500;600;700&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
@@ -81,13 +82,15 @@
 
                         var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                        grd.addColorStop(0, txtArray[x][1] ? "#3201c811" : "#ff335e11");
-                        grd.addColorStop(1, txtArray[x][1] ? "#ff335e66" : "#3201c866");
+                        grd.addColorStop(1, txtArray[x][1] === 2 ? "#9B0486" : txtArray[x][1] ?  "#3201c8" : "#FF335E");
+                        grd.addColorStop(0, txtArray[x][1] === 2 ? "#ffffff" : txtArray[x][1] ?  "#ffffff" : "#ffffff");
+
+
                         // Fill with gradient
                         ctx.fillStyle = grd;
                     }
                     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                    ctx.fillStyle = txtArray[x][1] ? "#efefef" : "#efefef"
+                    ctx.fillStyle = txtArray[x][1] ? "#ffffff" : "#ffffff"
                     ctx.font = settings[p].font
                     ctx.textAlign = 'center'
                     var lineheight = settings[p].lineHeight;
@@ -104,8 +107,8 @@
                             (myCanvas.width * 8 / 10) + 70, myCanvas.height + settings[p].ES //shadow end
                         ]
                         const phoneSizeConfig = [
-                            myCanvas.width / 10, myCanvas.height * start / 10, //image start
-                            myCanvas.width * 8 / 10, myCanvas.height + settings[p].ES //image end
+                            myCanvas.width / 10, myCanvas.height * start  / 10, //image start
+                            (myCanvas.width * 8 / 10), myCanvas.height + settings[p].ES - 70  //image end
                         ]
                         ctx.save();
                         roundedImage(
@@ -113,7 +116,7 @@
                             150 //corner radius
                         )
                         ctx.clip();
-                        ctx.fillStyle = '#4b5563'
+                        ctx.fillStyle = '#000000AA'
                         ctx.fillRect(...shadowSizeConfig)
                         ctx.restore();
 
@@ -124,8 +127,8 @@
                         )
                         ctx.clip();
                         ctx.drawImage(screenshot,
-                            0, 80, //grab start
-                            screenshot.width, screenshot.height - 0, //grab end
+                            0, 120, //grab start
+                            screenshot.width, screenshot.height - 154, //grab end
                             ...phoneSizeConfig
                         );
                         ctx.restore();
@@ -155,8 +158,8 @@
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        const screenshotStory2 = [['Predict leagues!', 0], ['drag and drop.your 22/23 prediction', 1], ['score points!', 0], ['Share or save.your prediction', 0], ['compete in the.global league vs.1000s of players!', 0], ['create mini leagues.with your friends!', 1], ['view others predictions', 1], ['hurry before.submission deadline!', 1]]
-        const screenshotStory3 = [['Predict the 2022. world cup', 0], ['score points on.your prediction', 0], ['Share or save.your tree', 0], ['compete in the.global league', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
+        const screenshotStory2 = [['Predict leagues', 1], ['Share or save.your prediction', 1], ['compete vs.the 🌍', 1], ['collect badges,.earn medals', 1], ['', 0],  ['compare!', 2] ,['Create leagues.with friends', 0], ['deadlines closing!', 1]]
+        const screenshotStory3 = [['Predict the 2022. world cup', 0], ['Share or save.your tree', 0], ['compete vs. others', 0], ['collect badges,earn medals', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
         createTile(screenshotStory2)
 
     </script>
