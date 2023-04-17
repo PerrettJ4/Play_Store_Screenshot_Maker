@@ -1,5 +1,5 @@
 # Play_Store_Screenshot_Maker
-Software to Autonomously make 8 screenshots for Google Play store listing
+Software to Autonomously make screenshots for Google Play and Apple Store listings
 
 ![Alt text](https://i.ibb.co/dJNq47C/Screenshot-2022-07-26-at-12-16-08.png?raw=true "Title")
 
