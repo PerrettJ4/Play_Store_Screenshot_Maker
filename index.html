@@ -21,15 +21,25 @@
 
     <script>
 
+        const one = "#3201c8"
+        const two = "#ff335e"
+        const f1 = "#d20515"
+        const wc = "#FD5212"
+        const f2 = "#C0C0C0"
+        const seriea = "#002d71"
+        const seriea2 = "#008fd7"
+        const championship = "#a69038"
 
-        function createTile(txtArray = [['foo bar. foo bar', 0], ['find my. facility is the best', 1]]) {
+        function createTile(txtArray = [['foo bar. foo bar', one], ['find my. facility is the best', one]]) {
 
             const settings = ["",
-                { height: '3840', width: '2160', font: "bold 160px Open sans", lineHeight: 200, ES: 0 },
-                { height: '2732', width: '2048', font: "bold 150px Open sans", lineHeight: 160, ES: 800 },
-                { height: '2778', width: '1284', font: "bold 90px Open sans", lineHeight: 130, ES: -500 },
-                { height: '2796', width: '1290', font: "bold 95px Open sans", lineHeight: 130, ES: -490 },
-                { height: '2208', width: '1242', font: "bold 90px Open sans", lineHeight: 120, ES: 0 }]
+                { height: '3840', width: '2160', font: "160px Open sans", lineHeight: 200, ES: 0 },
+                { height: '2732', width: '2048', font: "150px Open sans", lineHeight: 160, ES: 800 },
+                { height: '2778', width: '1284', font: "90px Open sans", lineHeight: 130, ES: -450 },
+                { height: '2796', width: '1290', font: "95px Open sans", lineHeight: 130, ES: -430 },
+                { height: '2208', width: '1242', font: "90px Open sans", lineHeight: 120, ES: 0 }]
+
+
 
 
             for (x = 0; x < txtArray.length; x++) {
@@ -75,55 +85,57 @@
                     //Math.round(Math.random())
                     if (false) {
                         //plain bg
-                        ctx.fillStyle = txtArray[x][1] ? "#fff" : "#7800ff"
+                        ctx.fillStyle = txtArray[x][1]
                     } else {
                         // Create gradient
                         const randomDec = Math.random() + 0.6
 
                         var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
 
-                        grd.addColorStop(1, txtArray[x][1] === 2 ? "#9B0486" : txtArray[x][1] ?  "#3201c8" : "#FF335E");
-                        grd.addColorStop(0, txtArray[x][1] === 2 ? "#ffffff" : txtArray[x][1] ?  "#ffffff" : "#ffffff");
+                        grd.addColorStop(1, "whitesmoke");
+                        grd.addColorStop(0, "#ffffff");
 
 
                         // Fill with gradient
                         ctx.fillStyle = grd;
                     }
                     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                    ctx.fillStyle = txtArray[x][1] ? "#ffffff" : "#ffffff"
+                    ctx.fillStyle = "#000000"
                     ctx.font = settings[p].font
                     ctx.textAlign = 'center'
                     var lineheight = settings[p].lineHeight;
                     const lines = txt.split('.');
+                    const shadowColor = txtArray[x][1]
 
                     for (var i = 0; i < lines.length; i++)
-                        ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1.2 / 10 + (i * lineheight));
+                        ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1 / 11 + (i * lineheight));
 
                     screenshot.addEventListener('load', (e) => {
-                        const start = lines.length === 3 ? 3 : lines.length === 2 ? 2.5 : txt.length === 0 ? 1 : 2
+                        const start = lines.length === 3 ? 2.5 : lines.length === 2 ? 2 : txt.length === 0 ? 1 : 1.5
 
                         const shadowSizeConfig = [
-                            (myCanvas.width / 10) - 35, (myCanvas.height * start / 10) - 35, //shadow start
-                            (myCanvas.width * 8 / 10) + 70, myCanvas.height + settings[p].ES //shadow end
+                            (myCanvas.width / 10) - 15, (myCanvas.height * start / 10) - 15, //shadow start
+                            (myCanvas.width * 8 / 10) + 70 - 40, myCanvas.height + settings[p].ES - 40 //shadow end
                         ]
                         const phoneSizeConfig = [
-                            myCanvas.width / 10, myCanvas.height * start  / 10, //image start
+                            myCanvas.width / 10, myCanvas.height * start / 10, //image start
                             (myCanvas.width * 8 / 10), myCanvas.height + settings[p].ES - 70  //image end
                         ]
                         ctx.save();
                         roundedImage(
                             ...shadowSizeConfig,
-                            150 //corner radius
+                            135 //corner radius
                         )
                         ctx.clip();
-                        ctx.fillStyle = '#000000AA'
+                        console.log(shadowColor)
+                        ctx.fillStyle = shadowColor
                         ctx.fillRect(...shadowSizeConfig)
                         ctx.restore();
 
                         ctx.save();
                         roundedImage(
                             ...phoneSizeConfig,
-                            110 //corner radius
+                            120 //corner radius
                         )
                         ctx.clip();
                         ctx.drawImage(screenshot,
@@ -158,7 +170,8 @@
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
-        const screenshotStory2 = [['Predict leagues', 1], ['Share or save.your prediction', 1], ['compete vs.the 🌍', 1], ['collect badges,.earn medals', 1], ['', 0],  ['compare!', 2] ,['Create leagues.with friends', 0], ['deadlines closing!', 1]]
+        const screenshotStoryOld = [['', 1], ['⚽ 🏈 🏀 🏁', 0], ['', 2], ['challenge friends', 1], ['Create leagues.with friends', 0], ["", 0]]
+        const screenshotStory2 = [['Predict leagues', one], ['Share or save.your prediction', seriea], ['compete vs.the 🌍', wc], ['create private.leagues with mates', f1], ['', championship]]
         const screenshotStory3 = [['Predict the 2022. world cup', 0], ['Share or save.your tree', 0], ['compete vs. others', 0], ['collect badges,earn medals', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
         createTile(screenshotStory2)
 
