@@ -1,0 +1,8 @@
+@font-face {
+  font-family: myFirstFont;
+  src: url(Balto-Super.ttf);
+}
+
+#myCanvas {
+  font-family: myFirstFont;
+}

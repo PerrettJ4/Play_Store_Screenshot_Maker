@@ -11,13 +11,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat&family=Open+Sans:wght@500;600;700&display=swap"
-        rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <h1>James' Screenshot Software</h1>
     <div id='container' style='display: flex; flex-direction: row;'></div>
+    <img id='splash2' style='display: none;' src='./splash2.png' />
 
     <script>
 
@@ -29,15 +29,15 @@
         const seriea = "#002d71"
         const seriea2 = "#008fd7"
         const championship = "#a69038"
-
+        const phoneBorder = "#0f0f0f11"
         function createTile(txtArray = [['foo bar. foo bar', one], ['find my. facility is the best', one]]) {
 
             const settings = ["",
-                { height: '3840', width: '2160', font: "160px Open sans", lineHeight: 200, ES: 0 },
-                { height: '2732', width: '2048', font: "150px Open sans", lineHeight: 160, ES: 800 },
-                { height: '2778', width: '1284', font: "90px Open sans", lineHeight: 130, ES: -450 },
-                { height: '2796', width: '1290', font: "95px Open sans", lineHeight: 130, ES: -430 },
-                { height: '2208', width: '1242', font: "90px Open sans", lineHeight: 120, ES: 0 }]
+                { height: '3840', width: '2160', font: "160px myFirstFont", lineHeight: 200, ES: 0 },
+                { height: '2732', width: '2048', font: "150px myFirstFont", lineHeight: 160, ES: 800 },
+                { height: '2778', width: '1284', font: "90px myFirstFont", lineHeight: 130, ES: -450 },
+                { height: '2796', width: '1290', font: "95px myFirstFont", lineHeight: 130, ES: -430 },
+                { height: '2208', width: '1242', font: "90px myFirstFont", lineHeight: 120, ES: 0 }]
 
 
 
@@ -68,7 +68,7 @@
                 <!-- 3840 2160 1920 1080-->
                 <canvas id="myCanvas${p}${x}" height=${settings[p].height} width=${settings[p].width} style="border: 2px solid #000; float: left;"></canvas>
                 <img src="" id="imgConverted${p}${x}" style="float: left; border: 2px solid #00f; margin-left: 10px;" />
-                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_PL/${x + 1}.png' />`
+                <img id='screenshot${p}${x}' style='display: none;' src='./Screenshots_FT_PL/${x + 1}.png' />;`
 
 
 
@@ -78,6 +78,7 @@
                     const btnDownload = document.querySelector(`#btnDownload${p}${x}`);
                     const imgConverted = document.querySelector(`#imgConverted${p}${x}`);
                     const myCanvas = document.querySelector(`#myCanvas${p}${x}`);
+                    const splash2 = document.querySelector(`#splash2`)
                     const screenshot = document.querySelector(`#screenshot${p}${x}`)
                     const ctx = myCanvas.getContext('2d', { alpha: false });
 
@@ -88,90 +89,113 @@
                         ctx.fillStyle = txtArray[x][1]
                     } else {
                         // Create gradient
-                        const randomDec = Math.random() + 0.6
+                        const middleX = myCanvas.width / 2
+                        const middleY = myCanvas.height / 2
+                        const innerRadius = middleX * 1.5
+                        const outerRadius = middleX * 2
+                        var grd = ctx.createRadialGradient(middleX, middleY, innerRadius, middleX, middleY, outerRadius);
 
-                        var grd = ctx.createRadialGradient(myCanvas.width / 2, myCanvas.height * 3 * randomDec / 4, 0, myCanvas.width / 2, myCanvas.height * randomDec * 3 / 4, (myCanvas.height / 2 * (randomDec - 0.2)));
-
-                        grd.addColorStop(1, "whitesmoke");
-                        grd.addColorStop(0, "#ffffff");
-
-
-                        // Fill with gradient
+                        grd.addColorStop(1, "#3201c8");
+                        grd.addColorStop(0, "#ff335e");
                         ctx.fillStyle = grd;
                     }
                     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                    ctx.fillStyle = "#000000"
+                    ctx.fillStyle = "#ffffff"
                     ctx.font = settings[p].font
                     ctx.textAlign = 'center'
                     var lineheight = settings[p].lineHeight;
                     const lines = txt.split('.');
-                    const shadowColor = txtArray[x][1]
+                    const shadowColor = 'black'
 
-                    for (var i = 0; i < lines.length; i++)
+                    const hRatio = myCanvas.width / splash2.width;
+                    const vRatio = myCanvas.height / splash2.height;
+                    const ratio = Math.min(hRatio, vRatio);
+
+                    const randomOffsetX = (settings[p].width * Math.random()) - settings[p].width / 2
+                    const randomOffsetY = settings[p].height / 5 + (settings[p].height * Math.random() / 2)
+
+                    ctx.drawImage(splash2, 0, 0, splash2.width, splash2.height, randomOffsetX, randomOffsetY, splash2.width * ratio, splash2.height * ratio);
+
+                    for (var i = 0; i < lines.length; i++) {
+                        const text = lines[i];
+                        const xc = myCanvas.width / 2;
+                        const yc = myCanvas.height * 1 / 11 + (i * lineheight);
+
+                        ctx.fillStyle = "rgb(0,0,0)";
+                        ctx.fillText(text, xc - 5, yc - 5);
+                        ctx.fillText(text, xc + 5, yc - 5);
+                        ctx.fillText(text, xc - 5, yc);
+                        ctx.fillText(text, xc + 5, yc);
+                        ctx.fillText(text, xc - 5, yc + 5);
+                        ctx.fillText(text, xc + 5, yc + 5);
+                        ctx.fillStyle = "#ffffff"
                         ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1 / 11 + (i * lineheight));
 
-                    screenshot.addEventListener('load', (e) => {
-                        const start = lines.length === 3 ? 2.5 : lines.length === 2 ? 2 : txt.length === 0 ? 1 : 1.5
 
-                        const shadowSizeConfig = [
-                            (myCanvas.width / 10) - 15, (myCanvas.height * start / 10) - 15, //shadow start
-                            (myCanvas.width * 8 / 10) + 70 - 40, myCanvas.height + settings[p].ES - 40 //shadow end
-                        ]
-                        const phoneSizeConfig = [
-                            myCanvas.width / 10, myCanvas.height * start / 10, //image start
-                            (myCanvas.width * 8 / 10), myCanvas.height + settings[p].ES - 70  //image end
-                        ]
-                        ctx.save();
-                        roundedImage(
-                            ...shadowSizeConfig,
-                            135 //corner radius
-                        )
-                        ctx.clip();
-                        console.log(shadowColor)
-                        ctx.fillStyle = shadowColor
-                        ctx.fillRect(...shadowSizeConfig)
-                        ctx.restore();
+                        screenshot.addEventListener('load', (e) => {
+                            const start = lines.length === 3 ? 2.5 : lines.length === 2 ? 2 : txt.length === 0 ? 1 : 1.5
 
-                        ctx.save();
-                        roundedImage(
-                            ...phoneSizeConfig,
-                            120 //corner radius
-                        )
-                        ctx.clip();
-                        ctx.drawImage(screenshot,
-                            0, 120, //grab start
-                            screenshot.width, screenshot.height - 154, //grab end
-                            ...phoneSizeConfig
-                        );
-                        ctx.restore();
+                            const shadowSizeConfig = [
+                                (myCanvas.width / 10) - 35, (myCanvas.height * start / 10) - 35, //shadow start
+                                (myCanvas.width * 8 / 10) + 70 - 0, myCanvas.height + settings[p].ES - 0 //shadow end
+                            ]
+                            const phoneSizeConfig = [
+                                myCanvas.width / 10, myCanvas.height * start / 10, //image start
+                                (myCanvas.width * 8 / 10), myCanvas.height + settings[p].ES - 70  //image end
+                            ]
+                            ctx.save();
+                            roundedImage(
+                                ...shadowSizeConfig,
+                                135 //corner radius
+                            )
+                            ctx.clip();
+                            console.log(shadowColor)
+                            ctx.fillStyle = shadowColor
+                            ctx.fillRect(...shadowSizeConfig)
+                            ctx.restore();
+
+                            ctx.save();
+                            roundedImage(
+                                ...phoneSizeConfig,
+                                120 //corner radius
+                            )
+                            ctx.clip();
+                            ctx.drawImage(screenshot,
+                                0, 120, //grab start
+                                screenshot.width, screenshot.height - 154, //grab end
+                                ...phoneSizeConfig
+                            );
+                            ctx.restore();
 
 
 
 
-                    });
+                        });
 
-                    btnDisplay.addEventListener("click", function () {
-                        const dataURI = myCanvas.toDataURL();
-                        imgConverted.src = dataURI
-                        console.log(dataURI)
-                    })
+                        btnDisplay.addEventListener("click", function () {
+                            const dataURI = myCanvas.toDataURL();
+                            imgConverted.src = dataURI
+                            console.log(dataURI)
+                        })
 
-                    btnDownload.addEventListener("click", function () {
-                        const a = document.createElement(`a`)
-                        console.log(x)
-                        // appending/removing only for Firefox
-                        document.body.appendChild(a);
-                        a.href = myCanvas.toDataURL();
-                        a.download = `${settings[p].height}-${p}-${x}.png`
-                        a.click()
-                        document.body.removeChild(a)
-                    })
+                        btnDownload.addEventListener("click", function () {
+                            const a = document.createElement(`a`)
+                            console.log(x)
+                            // appending/removing only for Firefox
+                            document.body.appendChild(a);
+                            a.href = myCanvas.toDataURL();
+                            a.download = `${settings[p].height}-${p}-${x}.png`
+                            a.click()
+                            document.body.removeChild(a)
+                        })
+                    }
                 }
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
         const screenshotStoryOld = [['', 1], ['⚽ 🏈 🏀 🏁', 0], ['', 2], ['challenge friends', 1], ['Create leagues.with friends', 0], ["", 0]]
-        const screenshotStory2 = [['Predict leagues', one], ['Share or save.your prediction', seriea], ['compete vs.the 🌍', wc], ['create private.leagues with mates', f1], ['', championship]]
+        const screenshotStory2 = [['Predict leagues', phoneBorder], ['Share or save.your prediction', phoneBorder], ['Score Points!', phoneBorder], ['Who is the best?', phoneBorder], ['24+ Leagues.and Tournaments', phoneBorder], ["Who will win?", phoneBorder], ["Earn Rewards!", phoneBorder], ["Private Leagues!", phoneBorder], ["", phoneBorder], ["", phoneBorder]]
+        const screenshotStory5 = [['', "#0f0f0f11"], ['', seriea], ['', wc], ['', f1], ['', championship]]
         const screenshotStory3 = [['Predict the 2022. world cup', 0], ['Share or save.your tree', 0], ['compete vs. others', 0], ['collect badges,earn medals', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
         createTile(screenshotStory2)
 
