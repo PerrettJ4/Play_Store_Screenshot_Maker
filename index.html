@@ -33,11 +33,11 @@
         function createTile(txtArray = [['foo bar. foo bar', one], ['find my. facility is the best', one]]) {
 
             const settings = ["",
-                { height: '3840', width: '2160', font: "160px myFirstFont", lineHeight: 200, ES: 0 },
-                { height: '2732', width: '2048', font: "150px myFirstFont", lineHeight: 160, ES: 800 },
-                { height: '2778', width: '1284', font: "90px myFirstFont", lineHeight: 130, ES: -450 },
-                { height: '2796', width: '1290', font: "95px myFirstFont", lineHeight: 130, ES: -430 },
-                { height: '2208', width: '1242', font: "90px myFirstFont", lineHeight: 120, ES: 0 }]
+                { height: '3840', width: '2160', font: "195px myFirstFont", lineHeight: 200, ES: 200 },
+                { height: '2732', width: '2048', font: "180px myFirstFont", lineHeight: 160, ES: 1200 },
+                { height: '2778', width: '1284', font: "115px myFirstFont", lineHeight: 130, ES: -450 },
+                { height: '2796', width: '1290', font: "115px myFirstFont", lineHeight: 130, ES: -450 },
+                { height: '2208', width: '1242', font: "110px myFirstFont", lineHeight: 120, ES: 200 }]
 
 
 
@@ -91,16 +91,17 @@
                         // Create gradient
                         const middleX = myCanvas.width / 2
                         const middleY = myCanvas.height / 2
-                        const innerRadius = middleX * 1.5
-                        const outerRadius = middleX * 2
+                        const apsectRatio = middleX / middleY
+                        const innerRadius = middleX * 1.4
+                        const outerRadius = middleX * 3
                         var grd = ctx.createRadialGradient(middleX, middleY, innerRadius, middleX, middleY, outerRadius);
 
-                        grd.addColorStop(1, "#3201c8");
-                        grd.addColorStop(0, "#ff335e");
+                        grd.addColorStop(1, one);
+                        grd.addColorStop(0, two);
                         ctx.fillStyle = grd;
                     }
                     ctx.fillRect(0, 0, myCanvas.width, myCanvas.height)
-                    ctx.fillStyle = "#ffffff"
+                    ctx.fillStyle = "grey"
                     ctx.font = settings[p].font
                     ctx.textAlign = 'center'
                     var lineheight = settings[p].lineHeight;
@@ -111,42 +112,45 @@
                     const vRatio = myCanvas.height / splash2.height;
                     const ratio = Math.min(hRatio, vRatio);
 
-                    const randomOffsetX = (settings[p].width * Math.random()) - settings[p].width / 2
-                    const randomOffsetY = settings[p].height / 5 + (settings[p].height * Math.random() / 2)
+                    const randomOffsetX = (settings[p].width * Math.random()) - settings[p].width
+                    const randomOffsetY = settings[p].height / 5 + (settings[p].height * Math.random())
 
-                    ctx.drawImage(splash2, 0, 0, splash2.width, splash2.height, randomOffsetX, randomOffsetY, splash2.width * ratio, splash2.height * ratio);
+                    const pbCoeff = myCanvas.width / 1242
+
+
 
                     for (var i = 0; i < lines.length; i++) {
                         const text = lines[i];
                         const xc = myCanvas.width / 2;
-                        const yc = myCanvas.height * 1 / 11 + (i * lineheight);
+                        const yc = myCanvas.height * 1 / 9 + (i * lineheight);
 
-                        ctx.fillStyle = "rgb(0,0,0)";
-                        ctx.fillText(text, xc - 5, yc - 5);
-                        ctx.fillText(text, xc + 5, yc - 5);
-                        ctx.fillText(text, xc - 5, yc);
-                        ctx.fillText(text, xc + 5, yc);
-                        ctx.fillText(text, xc - 5, yc + 5);
-                        ctx.fillText(text, xc + 5, yc + 5);
-                        ctx.fillStyle = "#ffffff"
-                        ctx.fillText(lines[i], myCanvas.width / 2, myCanvas.height * 1 / 11 + (i * lineheight));
+                        ctx.fillStyle = one;
+                        ctx.fillText(text, xc - xc / 100, yc - yc / 35);
+                        ctx.fillText(text, xc + xc / 70, yc - yc / 35);
+                        ctx.fillText(text, xc - xc / 100, yc);
+                        ctx.fillStyle = two;
+                        ctx.fillText(text, xc + xc / 70, yc);
+                        ctx.fillText(text, xc - xc / 100, yc + yc / 60);
+                        ctx.fillText(text, xc + xc / 70, yc + yc / 60);
+                        ctx.fillStyle = 'white'
+                        ctx.fillText(text, xc, yc);
 
 
                         screenshot.addEventListener('load', (e) => {
                             const start = lines.length === 3 ? 2.5 : lines.length === 2 ? 2 : txt.length === 0 ? 1 : 1.5
 
                             const shadowSizeConfig = [
-                                (myCanvas.width / 10) - 35, (myCanvas.height * start / 10) - 35, //shadow start
-                                (myCanvas.width * 8 / 10) + 70 - 0, myCanvas.height + settings[p].ES - 0 //shadow end
+                                (myCanvas.width / 24) - pbCoeff * 35, (myCanvas.height * start / 8) - pbCoeff * 35, //shadow start
+                                (myCanvas.width * 22 / 24) + pbCoeff * 70 - 0, myCanvas.height + settings[p].ES + pbCoeff *70- 0 //shadow end
                             ]
                             const phoneSizeConfig = [
-                                myCanvas.width / 10, myCanvas.height * start / 10, //image start
-                                (myCanvas.width * 8 / 10), myCanvas.height + settings[p].ES - 70  //image end
+                                myCanvas.width / 24, myCanvas.height * start / 8, //image start
+                                (myCanvas.width * 22 / 24), myCanvas.height + settings[p].ES - pbCoeff * 70 / 6  //image end
                             ]
                             ctx.save();
                             roundedImage(
                                 ...shadowSizeConfig,
-                                135 //corner radius
+                                110 * pbCoeff //corner radius
                             )
                             ctx.clip();
                             console.log(shadowColor)
@@ -157,7 +161,7 @@
                             ctx.save();
                             roundedImage(
                                 ...phoneSizeConfig,
-                                120 //corner radius
+                                100 * pbCoeff //corner radius
                             )
                             ctx.clip();
                             ctx.drawImage(screenshot,
@@ -178,27 +182,30 @@
                             console.log(dataURI)
                         })
 
-                        btnDownload.addEventListener("click", function () {
-                            const a = document.createElement(`a`)
-                            console.log(x)
+
+                        function downloadImage() {
+                            const a = document.createElement('a');
+                            console.log(x);
                             // appending/removing only for Firefox
                             document.body.appendChild(a);
                             a.href = myCanvas.toDataURL();
-                            a.download = `${settings[p].height}-${p}-${x}.png`
-                            a.click()
-                            document.body.removeChild(a)
-                        })
+                            a.download = `${settings[p].height}-${p}-${x}.png`;
+                            a.click();
+                            document.body.removeChild(a);
+                        }
+                     //  setTimeout(downloadImage, 10000);
                     }
                 }
             }
         }
         const screenshotStory1 = [['access local.sports facilities', 0], ['find details.of any facility', 1], ['view activities', 1], ['find opening times', 1], ['discover local. classes', 0], ['explore class.details', 1], ['filter by sports', 0], ['select your.favourite sports', 1]]
         const screenshotStoryOld = [['', 1], ['⚽ 🏈 🏀 🏁', 0], ['', 2], ['challenge friends', 1], ['Create leagues.with friends', 0], ["", 0]]
-        const screenshotStory2 = [['Predict leagues', phoneBorder], ['Share or save.your prediction', phoneBorder], ['Score Points!', phoneBorder], ['Who is the best?', phoneBorder], ['24+ Leagues.and Tournaments', phoneBorder], ["Who will win?", phoneBorder], ["Earn Rewards!", phoneBorder], ["Private Leagues!", phoneBorder], ["", phoneBorder], ["", phoneBorder]]
+        //const screenshotStory2 = [['create your.prediction', two], ['versus friends', phoneBorder], ['and the world!', phoneBorder],['Make your player', phoneBorder], ['earn rewards!', phoneBorder], ['MANY Leagues.& 6 Sports', phoneBorder], ["Live Updates", phoneBorder], ["and mini Leagues!", phoneBorder]]
+        const screenshotStory2 = [['create your.prediction', two], ['MANY Leagues.& 6 Sports', phoneBorder]]
         const screenshotStory5 = [['', "#0f0f0f11"], ['', seriea], ['', wc], ['', f1], ['', championship]]
         const screenshotStory3 = [['Predict the 2022. world cup', 0], ['Share or save.your tree', 0], ['compete vs. others', 0], ['collect badges,earn medals', 0], ['', 0], ['light or.dark mode', 1], ['', 1], ['', 0], ['', 0], ['Check out your.friends trees', 0]]
         createTile(screenshotStory2)
-
+        /* Make your player, Create your prediction, versus Friends, and the world!, Earn Rewards!, in 25 Leagues & 6 Sports,  Live Updates, public leagues     */
     </script>
 </body>
 
